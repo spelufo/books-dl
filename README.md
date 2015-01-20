@@ -17,6 +17,12 @@ node_modules/.bin/nw . <book-id> <output-directory>
 ```
 
 Your book's images will be saved to `<output-directory>/<pg-num>-<pg-id>.png`.
+To make them into a pdf on linux you can do
+
+```bash
+cd <output-directory>
+convert `ls -tr '*.png'` book.pdf
+```
 
 If you want to speed the paging up or slow it down if images aren't loading
 fast enough, tweak `index.js`.
