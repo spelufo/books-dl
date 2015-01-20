@@ -1,6 +1,9 @@
+var viewer;
 var $ = function (x) { return [].slice.call(document.querySelectorAll(x)) };
 var PNG = require('node-png').PNG;
 var fs = require('fs');
+var path = require('path');
+var mkdirp = require('mkdirp');
 
 var makeImgDataGetter = function (canvas) {
   return function (img) {
@@ -33,7 +36,7 @@ function nextPage() {
   var img = getPageImage();
   if (img) {
     var png = new PNG({ width: img.width, height: img.height})
-    var file = outdir+'/'+img.num+'-'+img.id+'.png'
+    var file = path.join(outdir, img.num+'-'+img.id+'.png')
     png.data = img.data;
     png.pack().pipe(fs.createWriteStream(file));
   }
@@ -47,21 +50,20 @@ function nextPage() {
 }
 
 
-
-var bookid = require('nw.gui').App.argv[0];
+var args = require('nw.gui').App.argv;
+var bookid = args[0];
 if (!bookid) {
   process.stderr.write('\nMissing <book-id> argument:\n')
   process.stderr.write('Usage:\n\tnw . <book-id>\n# See Supported Identifiers at https://developers.google.com/books/docs/viewer/developers_guide\n')
   process.exit(1);
 }
 
-var outdir;
-fs.mkdirSync(outdir = './books/'+bookid)
+var outdir = path.resolve(args[1] || '.');
+mkdirp.sync(outdir);
 
-var viewer;
 google.load("books", "0");
 google.setOnLoadCallback(function initialize() {
   viewer = new google.books.DefaultViewer(document.getElementById('viewerCanvas'));
   viewer.load(bookid);
-  setTimeout(nextPage, 5000);
+  setTimeout(nextPage, 3000);
 })
