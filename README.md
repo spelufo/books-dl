@@ -52,7 +52,7 @@ mixture of binary files and sqlite3 databases... Moving on.
 3. **Browse to get links + wget them.** I've found this technique for simple one time
 scraping to be very easy and fast. You go to the page on the devtools, run all the js you
 want on the dom to come up with the list of urls you want to wget. Then copy paste to a terminal and done.
-Except it doesn't work, because SSH. Authentication fails. I tried exporting the browsers cookies to a file
+Except it doesn't work, because SSL. Authentication fails. I tried exporting the browsers cookies to a file
 but it didn't work either.
 
 4. **Scraping with node webkit.** Success. Getting the images one at a time with the API
